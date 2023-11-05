@@ -4,7 +4,8 @@ import React from "react";
 
 const getEdad = (fechaNacimiento) => {
   const fecha = new Date();
-  const edad = fecha.getFullYear() - fechaNacimiento;
+  const fechaNac = new Date(fechaNacimiento);
+  const edad = fecha.getFullYear() - fechaNac.getFullYear();
   return edad;
 };
 
@@ -25,30 +26,49 @@ const TablaContactos = ({ contactos = [], dispatch }) => {
       <table className="table table-striped">
         <thead>
           <tr>
+            <th>ID</th>
+            <th>Avatar</th>
             <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Fecha de Nacimiento</th>
+            <th>Número</th>
+            <th>Sexo</th>
             <th>Edad</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {contactos.map((contacto) => (
-            <tr key={contacto.id}>
-              <td>{contacto.nombre}</td>
-              <td>{contacto.apellido}</td>
-              <td>{contacto.fechaNacimiento}</td>
-              <td>{getEdad(contacto.fechaNacimiento)}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(contacto.id)}
-                >
-                  Borrar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {contactos.map((contacto) => {
+            const { id, nombre, numero, sexo, fechaNacimiento, avatar } =
+              contacto;
+            const edad = getEdad(fechaNacimiento);
+            const uid = id.split("-");
+            return (
+              <tr key={contacto.id}>
+                <td>{uid[0]}</td>
+                <td>
+                  <img
+                    src={avatar}
+                    alt={nombre}
+                    width={50}
+                    height={50}
+                    className="rounded-circle"
+                  />
+                </td>
+
+                <td>{nombre}</td>
+                <td>{numero}</td>
+                <td>{sexo}</td>
+                <td>{edad}</td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(contacto.id)}
+                  >
+                    Borrar
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

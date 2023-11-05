@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { v4 as uuid } from "uuid";
+import { useForm } from "react-hook-form";
 
 const FormularioAdd = ({ dispatch }) => {
   // Agregamos un state:
+
   const [error, setError] = useState(false);
   const [data, setData] = useState({
     nombre: "",
@@ -51,6 +53,7 @@ const FormularioAdd = ({ dispatch }) => {
   };
 
   const validations = () => {
+    // Validamos que los campos no estén vacíos:
     if (
       nombre.trim() === "" ||
       numero.trim() === "" ||
@@ -66,14 +69,17 @@ const FormularioAdd = ({ dispatch }) => {
   return (
     <>
       {/* Agregar una alerta de error */}
-      {error && (
-        <div className="alert alert-danger text-center">
-          Todos los campos son obligatorios
-        </div>
-      )}
-      <div className="container col-md-6">
-        <label className="mx-1 d-grid gap-2">
-          Nombre: {""}
+      {error &&
+        setTimeout(() => {
+          setError(false);
+        }, 3000) && (
+          <div className="alert alert-danger text-center">
+            Todos los campos son requeridos
+          </div>
+        )}
+      <form className="container col-md-6">
+        <div className="mb-3">
+          <label className="mx-1 d-grid gap-2">Nombre: {""}</label>
           <input
             onChange={handleChange}
             name="nombre"
@@ -82,12 +88,12 @@ const FormularioAdd = ({ dispatch }) => {
             className="form-control"
             autoComplete="off"
           />
-          {/* {!nombre && (
+          {!nombre && error && (
             <span className="text-danger">El nombre es requerido</span>
-          )} */}
-        </label>
-        <label className="mx-1 d-grid gap-2">
-          Número: {""}
+          )}
+        </div>
+        <div className="mb-3">
+          <label className="mx-1 d-grid gap-2">Número: {""}</label>
           <input
             onChange={handleChange}
             name="numero"
@@ -96,12 +102,12 @@ const FormularioAdd = ({ dispatch }) => {
             className="form-control"
             autoComplete="off"
           />
-          {/* {!numero && (
+          {!numero && error && (
             <span className="text-danger">El número es requerido</span>
-          )} */}
-        </label>
-        <label className="mx-1 d-grid gap-2">
-          Sexo: {""}
+          )}
+        </div>
+        <div className="mb-3">
+          <label className="mx-1 d-grid gap-2">Sexo: {""}</label>
           <select
             onChange={handleChange}
             name="sexo"
@@ -114,9 +120,12 @@ const FormularioAdd = ({ dispatch }) => {
             <option value="F">Femenino</option>
             <option value="Otro">Otro</option>
           </select>
-        </label>
-        <label className="mx-1 d-grid gap-2">
-          Fecha de nacimiento: {""}
+          {!sexo && error && (
+            <span className="text-danger">El campo sexo es requerido</span>
+          )}
+        </div>
+        <div className="mb-3">
+          <label className="mx-1 d-grid gap-2">Fecha de nacimiento: {""}</label>
           <input
             onChange={handleChange}
             name="fechaNacimiento"
@@ -125,9 +134,14 @@ const FormularioAdd = ({ dispatch }) => {
             className="form-control"
             autoComplete="off"
           />
-        </label>
-        <label className="mx-1 d-grid gap-2">
-          Avatar: {""}
+          {!fechaNacimiento && error && (
+            <span className="text-danger">
+              El campo fecha de nacimiento es requerido
+            </span>
+          )}
+        </div>
+        <div className="mb-3">
+          <label className="mx-1 d-grid gap-2">Avatar: {""}</label>
           <input
             onChange={handleChange}
             name="avatar"
@@ -136,13 +150,16 @@ const FormularioAdd = ({ dispatch }) => {
             className="form-control"
             autoComplete="off"
           />
-        </label>
+          {!avatar && error && (
+            <span className="text-danger">El campo avatar es requerido</span>
+          )}
+        </div>
         <div className="mx-1 d-grid gap-2">
           <button className="btn btn-dark mt-2" onClick={handleAdd}>
             Agregar
           </button>
         </div>
-      </div>
+      </form>
     </>
   );
 };
