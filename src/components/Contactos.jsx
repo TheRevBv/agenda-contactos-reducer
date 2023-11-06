@@ -40,7 +40,7 @@ const Contactos = () => {
         onClick={() => setFormView(!formView)}
         className="btn btn-success"
       >
-        {!formView ? "+Agregar Contacto" : "- Cerrar Formulario"}
+        {!formView ? "+ Agregar Contacto" : "- Cerrar Formulario"}
       </button>
       {formView && <FormularioAdd dispatch={dispatch} />}
       <TablaContactos contactos={state} dispatch={dispatch} />
